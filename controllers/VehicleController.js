@@ -8,7 +8,7 @@ class VehicleController {
       let data = {
         vehicleNumber: req.body.vehicleNumber,
         vehicleBrand: req.body.vehicleBrand,
-        vehicleStatus: req.body.vehicleStatus,
+        vehicleStatusId: req.body.vehicleStatusId,
         companyId: req.body.companyId,
         vehicleTypeId: req.body.vehicleTypeId,
         vehicleSeatNumber: req.body.vehicleSeatNumber,
@@ -28,6 +28,7 @@ class VehicleController {
   getAllVehicle = async (req, res) => {
     try {
       const data = await Vehicle.findAll();
+      console.log(data);
       res.json({ status: 201, data: data });
     } catch (err) {
       res.json({
@@ -105,10 +106,10 @@ class VehicleController {
         if ("Total" in item) {
           return;
         }
-        dataArr.push(item);
+        if (item.companyId == req.query.companyid) {
+          dataArr.push(item);
+        }
       });
-
-      console.log(data);
 
       res.json({ status: 201, data: dataArr, Total: total });
     } catch (e) {
@@ -131,6 +132,14 @@ class VehicleController {
         },
       });
       res.json({ data });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // [GET] /api/vehicle/filtervehicle
+  filterVehicle = async (req, res) => {
+    try {
     } catch (e) {
       console.log(e);
     }

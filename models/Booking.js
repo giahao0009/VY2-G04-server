@@ -8,6 +8,14 @@ module.exports = (sequelize) => {
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
+    toAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fromAddress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     pickupDate: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -15,6 +23,11 @@ module.exports = (sequelize) => {
     bookingStatus: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    numberPeoples: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
     },
   });
 };

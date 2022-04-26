@@ -18,7 +18,6 @@ module.exports = (sequelize) => {
     },
     driverBirthDay: {
       type: DataTypes.DATEONLY,
-      unique: true,
       allowNull: false,
     },
     driverPhone: {

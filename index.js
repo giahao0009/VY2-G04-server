@@ -1,16 +1,19 @@
 require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const router = require("./routers");
 const loader = require("./loaders");
+const helmet = require("helmet");
 const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(helmet());
 
 loader(app);
 router(app);

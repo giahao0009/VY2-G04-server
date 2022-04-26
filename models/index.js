@@ -12,6 +12,8 @@ const SchedulerDetailModel = require("./SchedulerDetail");
 const StationModel = require("./Station");
 const CustomerModel = require("./Customer");
 const BookingModel = require("./Booking");
+const VehicleStatusModel = require("./VehicleStatus");
+const UserModel = require("./User");
 // ------------------------------------------------------------------------------------------------
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
@@ -28,6 +30,8 @@ const SchedulerDetail = SchedulerDetailModel(sequelize);
 const Station = StationModel(sequelize);
 const Customer = CustomerModel(sequelize);
 const Booking = BookingModel(sequelize);
+const VehicleStatus = VehicleStatusModel(sequelize);
+const User = UserModel(sequelize);
 
 // ----------------------------------------------------------------
 
@@ -93,26 +97,76 @@ SchedulerDetail.belongsTo(Station, {
 
 // Relationship of booking and customer
 Customer.hasMany(Booking, {
-  foreignKey: "customerId",
+  foreignKey: {
+    name: "customerId",
+    allowNull: false,
+  },
 });
 Booking.belongsTo(Customer, {
-  foreignKey: "customerId",
+  foreignKey: {
+    name: "customerId",
+    allowNull: false,
+  },
 });
+// ----------------------------------------------------------------
 
 // Relationship of booking and vehicle
 Vehicle.hasMany(Booking, {
-  foreignKey: "vehicleId",
+  foreignKey: {
+    name: "vehicleId",
+    allowNull: false,
+  },
 });
 Booking.belongsTo(Vehicle, {
-  foreignKey: "vehicleId",
+  foreignKey: {
+    name: "vehicleId",
+    allowNull: false,
+  },
+});
+// ----------------------------------------------------------------
+
+// Relationship of company and station
+Company.hasMany(Station, {
+  foreignKey: {
+    name: "companyId",
+    allowNull: false,
+  },
 });
 
-// Relationship of booking and company
-Company.hasMany(Booking, {
-  foreignKey: "companyId",
+Station.belongsTo(Company, {
+  foreignKey: {
+    name: "companyId",
+    allowNull: false,
+  },
 });
-Booking.belongsTo(Company, {
-  foreignKey: "companyId",
+// ----------------------------------------------------------------
+
+// Relationship of VehicleStatus and Vehicle
+VehicleStatus.hasMany(Vehicle, {
+  foreignKey: {
+    name: "vehicleStatusId",
+    allowNull: false,
+  },
+});
+Vehicle.belongsTo(VehicleStatus, {
+  foreignKey: {
+    name: "vehicleStatusId",
+    allowNull: false,
+  },
+});
+
+// Relationship of User and Company
+User.hasMany(Company, {
+  foreignKey: {
+    name: "userId",
+    allowNull: false,
+  },
+});
+Company.belongsTo(User, {
+  foreignKey: {
+    name: "userId",
+    allowNull: false,
+  },
 });
 
 module.exports = {
@@ -120,10 +174,12 @@ module.exports = {
   Company,
   Vehicle,
   VehicleType,
+  VehicleStatus,
   Driver,
   Scheduler,
   SchedulerDetail,
   Station,
   Booking,
-  Vehicle,
+  Customer,
+  User,
 };
