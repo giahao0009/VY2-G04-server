@@ -21,5 +21,9 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    keyRelation: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 };

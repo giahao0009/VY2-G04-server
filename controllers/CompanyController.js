@@ -30,6 +30,7 @@ class CompanyController {
         founderLastName: req.body.founderLastName,
         founderPhone: req.body.founderPhone,
         founderEmail: req.body.founderEmail,
+        userId: req.body.userId,
       };
       const company = await Company.create(data);
       res.json({
@@ -41,7 +42,7 @@ class CompanyController {
       res.json({
         status: 404,
         message: "Thực hiện không thành công",
-        error: e,
+        error: err,
       });
     }
   };

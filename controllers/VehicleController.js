@@ -12,6 +12,7 @@ class VehicleController {
         companyId: req.body.companyId,
         vehicleTypeId: req.body.vehicleTypeId,
         vehicleSeatNumber: req.body.vehicleSeatNumber,
+        keyRelation: req.body.keyRelation,
       };
       const vehicle = await Vehicle.create(data);
       res.json({ status: 201, message: "Thực hiện thành công", data: vehicle });
@@ -92,7 +93,7 @@ class VehicleController {
   getAllVehicleWithPagination = async (req, res) => {
     try {
       const [results, metadata] = await sequelize.query(
-        `EXEC [usp_vehiclePagination] @page = ${req.query.page}, @size = ${req.query.size}`
+        `EXEC usp_vehiclePagination @page = ${req.query.page}, @size = ${req.query.size}`
       );
 
       let total;
@@ -102,7 +103,7 @@ class VehicleController {
         }
       }
       const dataArr = [];
-      const data = results.forEach((item) => {
+      results.forEach((item) => {
         if ("Total" in item) {
           return;
         }
@@ -110,6 +111,8 @@ class VehicleController {
           dataArr.push(item);
         }
       });
+
+      console.log(dataArr);
 
       res.json({ status: 201, data: dataArr, Total: total });
     } catch (e) {
@@ -131,17 +134,27 @@ class VehicleController {
           },
         },
       });
-      res.json({ data });
+      res.json({ status: 201, message: "Thực hiện thành công", data: data });
     } catch (e) {
       console.log(e);
+      res.json({ status: 401, message: "Thực hiện không thành công" });
     }
   };
 
   // [GET] /api/vehicle/filtervehicle
   filterVehicle = async (req, res) => {
     try {
+      const [results, metadata] = await sequelize.query(
+        `EXEC [usp_genFillVehicle] @keyRelation = ${req.query.keyrelation}`
+      );
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: results,
+      });
     } catch (e) {
       console.log(e);
+      res.json({ status: 401, message: "Thực hiện không thành công" });
     }
   };
 }

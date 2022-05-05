@@ -1,18 +1,14 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  return sequelize.define("Scheduler", {
-    schedulerId: {
+  return sequelize.define("TableKeyRelation", {
+    tableKeyRelationId: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
-    schedulerStart: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    schedulerEnd: {
+    keyRelation: {
       type: DataTypes.STRING,
       allowNull: false,
     },

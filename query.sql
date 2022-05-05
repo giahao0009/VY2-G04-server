@@ -120,3 +120,19 @@ BEGIN
 	');
 END
 GO
+
+-- filltervehicle
+CREATE PROCEDURE [dbo].[usp_genFillVehicle]
+	@keyRelation VARCHAR(MAX)
+AS
+BEGIN
+	select Vehicles.vehicleId, Vehicles.vehicleNumber, Vehicles.vehicleBrand, Vehicles.keyRelation, Vehicles.companyId, Vehicles.vehicleTypeId, Vehicles.vehicleStatusId, Schedulers.schedulerId, Schedulers.schedulerStart, Schedulers.schedulerEnd
+	from Vehicles, Schedulers
+	where Vehicles.vehicleId = Schedulers.vehicleId AND Vehicles.keyRelation = @keyRelation
+END
+GO
+
+
+select Vehicles.vehicleId, Vehicles.vehicleNumber, Vehicles.vehicleBrand, Vehicles.keyRelation, Vehicles.companyId, Vehicles.vehicleTypeId, Vehicles.vehicleStatusId, Schedulers.schedulerId, Schedulers.schedulerStart, Schedulers.schedulerEnd
+from Vehicles, Schedulers
+where Vehicles.vehicleId = Schedulers.vehicleId

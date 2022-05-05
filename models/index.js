@@ -14,6 +14,7 @@ const CustomerModel = require("./Customer");
 const BookingModel = require("./Booking");
 const VehicleStatusModel = require("./VehicleStatus");
 const UserModel = require("./User");
+const TableKeyRelationModel = require("./TableKeyRelation");
 // ------------------------------------------------------------------------------------------------
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
@@ -32,6 +33,7 @@ const Customer = CustomerModel(sequelize);
 const Booking = BookingModel(sequelize);
 const VehicleStatus = VehicleStatusModel(sequelize);
 const User = UserModel(sequelize);
+const TableKeyRelation = TableKeyRelationModel(sequelize);
 
 // ----------------------------------------------------------------
 
@@ -154,6 +156,7 @@ Vehicle.belongsTo(VehicleStatus, {
     allowNull: false,
   },
 });
+// ----------------------------------------------------------------
 
 // Relationship of User and Company
 User.hasMany(Company, {
@@ -168,6 +171,22 @@ Company.belongsTo(User, {
     allowNull: false,
   },
 });
+// ----------------------------------------------------------------
+
+// Relationship of TableKeyRelation and Station
+Station.hasMany(TableKeyRelation, {
+  foreignKey: {
+    name: "stationId",
+    allowNull: false,
+  },
+});
+TableKeyRelation.belongsTo(Station, {
+  foreignKey: {
+    name: "stationId",
+    allowNull: false,
+  },
+});
+// ----------------------------------------------------------------
 
 module.exports = {
   sequelize,
@@ -182,4 +201,5 @@ module.exports = {
   Booking,
   Customer,
   User,
+  TableKeyRelation,
 };

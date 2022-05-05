@@ -1,4 +1,4 @@
-const { sequelize, Station } = require("../models");
+const { sequelize, Station, TableKeyRelation } = require("../models");
 const { Op } = require("sequelize");
 
 class StationController {

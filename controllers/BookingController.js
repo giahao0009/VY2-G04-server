@@ -2,7 +2,7 @@ const { sequelize, Booking } = require("../models");
 
 class BookingController {
   // [POST] /api/booking/bookvehicle
-  bookVehicle = (req, res) => {
+  bookVehicle = async (req, res) => {
     try {
       const data = {
         toAddress: req.body.toAddress,
@@ -12,9 +12,13 @@ class BookingController {
         vehicleId: req.body.vehicleId,
         bookingStatus: req.body.bookingStatus,
         numberPeoples: req.body.numberPeoples,
+        time: req.body.time,
+        user: req.body.user,
       };
 
-      console.log(data);
+      const result = await Booking.create(data);
+      console.log(result);
+      res.json({ data: result });
     } catch (err) {
       console.log(err);
     }
