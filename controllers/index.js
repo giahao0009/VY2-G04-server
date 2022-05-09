@@ -6,6 +6,7 @@ const BookingController = require("./BookingController");
 const UserController = require("./UserController");
 const SchedulerController = require("./SchedulerController");
 const SchedulerDetailController = require("./SchedulerDetailController");
+const UltilsController = require("./UltilsController");
 
 module.exports = {
   CompanyController,
@@ -16,4 +17,5 @@ module.exports = {
   UserController,
   SchedulerController,
   SchedulerDetailController,
+  UltilsController,
 };

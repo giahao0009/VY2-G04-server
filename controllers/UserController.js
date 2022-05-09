@@ -96,6 +96,7 @@ class UserController {
         message: "Đăng nhập thành công",
         email: user.dataValues.email,
         name: user.dataValues.name,
+        userId: user.dataValues.userId,
         accessToken: accessToken,
       });
     } catch (e) {

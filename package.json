@@ -21,6 +21,7 @@
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.18.0",
+    "stripe": "^8.222.0",
     "tedious": "^14.4.0"
   }
 }

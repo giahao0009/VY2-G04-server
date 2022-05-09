@@ -6,6 +6,7 @@ const AuthRouter = require("./AuthRouter");
 const SchedulerRouter = require("./SchedulerRouter");
 const SchedulerDetailRouter = require("./SchedulerDetailRouter");
 const BookingRouter = require("./BookingRouter");
+const UltilsRouter = require("./UltilsRouter");
 
 const route = (app) => {
   app.use("/api/company", CompanyRouter);
@@ -16,6 +17,7 @@ const route = (app) => {
   app.use("/api/scheduler", SchedulerRouter);
   app.use("/api/schedulerdetail", SchedulerDetailRouter);
   app.use("/api/booking", BookingRouter);
+  app.use("/api/ultils", UltilsRouter);
 };
 
 module.exports = route;
