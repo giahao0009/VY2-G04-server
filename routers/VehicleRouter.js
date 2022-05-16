@@ -9,6 +9,7 @@ router.delete("/deletevehicle/:id", VehicleController.deleteVehicle);
 router.put("/updatevehicle/:id", VehicleController.updateVehicle);
 router.get("/search", VehicleController.searchVehicle);
 router.get("/filtervehicle", VehicleController.filterVehicle);
+router.get("/getallstatus", VehicleController.getAllStatus);
 router.get(
   "/getAllVehicleWithPagination",
   VehicleController.getAllVehicleWithPagination

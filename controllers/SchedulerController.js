@@ -25,6 +25,21 @@ class SchedulerController {
     }
   };
 
+  getAllSchedulerByCompany = async (req, res) => {
+    try {
+      const data = await Scheduler.findAll({
+        where: { companyId: req.query.companyId },
+      });
+      res.json({ status: 201, data: data });
+    } catch (err) {
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
+
   getAllScheduler = async (req, res) => {
     try {
       const data = await Scheduler.findAll();

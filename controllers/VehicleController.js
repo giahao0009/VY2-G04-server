@@ -1,4 +1,4 @@
-const { sequelize, Vehicle } = require("../models");
+const { sequelize, Vehicle, VehicleStatus } = require("../models");
 const { Op } = require("sequelize");
 
 class VehicleController {
@@ -19,6 +19,22 @@ class VehicleController {
     } catch (err) {
       res.json({
         status: 401,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
+
+  // [GET] /api/vehicle/getallstatus
+  getAllStatus = async (req, res) => {
+    try {
+      const vehicleStatus = await VehicleStatus.findAll();
+      console.log(vehicleStatus);
+      res.json({ status: 201, data: vehicleStatus });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
         message: "Thực hiện không thành công",
         err: err,
       });
@@ -72,17 +88,30 @@ class VehicleController {
   updateVehicle = async (req, res) => {
     try {
       let data = {
-        vehicleId: req.params.vehicleId,
         vehicleNumber: req.body.vehicleNumber,
         vehicleBrand: req.body.vehicleBrand,
-        vehicleStatus: req.body.vehicleStatus,
+        vehicleStatusId: req.body.vehicleStatusId,
         companyId: req.body.companyId,
         vehicleTypeId: req.body.vehicleTypeId,
         vehicleSeatNumber: req.body.vehicleSeatNumber,
+        keyRelation: req.body.keyRelation,
       };
-      const vehicle = await Vehicle.update(data, {
-        where: { vehicleId: req.params.id },
-      });
+      console.log(data);
+      const vehicle = await Vehicle.update(
+        {
+          vehicleNumber: req.body.vehicleNumber,
+          vehicleBrand: req.body.vehicleBrand,
+          vehicleStatusId: req.body.vehicleStatusId,
+          companyId: req.body.companyId,
+          vehicleTypeId: req.body.vehicleTypeId,
+          vehicleSeatNumber: req.body.vehicleSeatNumber,
+          keyRelation: req.body.keyRelation,
+        },
+        {
+          where: { vehicleId: req.params.id },
+        }
+      );
+      console.log(vehicle);
       res.json({ status: 201, message: "Thực hiện thành công", data: vehicle });
     } catch (e) {
       res.json({ status: 401, message: "Thực hiện không thành công", err: e });
@@ -145,8 +174,9 @@ class VehicleController {
   filterVehicle = async (req, res) => {
     try {
       const [results, metadata] = await sequelize.query(
-        `EXEC [usp_genFillVehicle] @keyRelation = ${req.query.keyrelation}`
+        `EXEC [usp_genFillVehicle] @keyRelation = '${req.query.keyrelation}'`
       );
+      console.log(results);
       res.json({
         status: 201,
         message: "Thực hiện thành công",

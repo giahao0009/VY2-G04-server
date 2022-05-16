@@ -11,10 +11,11 @@ class StationController {
         companyId: req.body.companyId,
       };
       const station = await Station.create(data);
+      console.log(station);
       res.json({ status: 201, message: "Thực hiện thành công", data: station });
     } catch (err) {
       res.json({
-        status: 401,
+        status: 501,
         message: "Thực hiện không thành công",
         err: err,
       });

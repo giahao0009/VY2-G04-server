@@ -5,7 +5,7 @@ class UltisController {
   // [POST] /api/ultils/payment-stripe
   // Tạo payment intent
   createPaymentIntent = async (req, res) => {
-    const { items } = req.body;
+    const { items, email } = req.body;
     // Tạo payment intent với số tiền đặt và đơn vị tiền tệ
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateOrderAmount(items),
@@ -13,9 +13,9 @@ class UltisController {
       automatic_payment_methods: {
         enabled: true,
       },
-      receipt_email: "haodeptrai55@gmail.com",
+      receipt_email: email,
     });
-    console.log(paymentIntent.client_secret);
+    console.log(paymentIntent);
     // console.log(paymentIntent.clientSecret);
     res.json({
       clientSecret: paymentIntent.client_secret,

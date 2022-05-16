@@ -15,6 +15,7 @@ const BookingModel = require("./Booking");
 const VehicleStatusModel = require("./VehicleStatus");
 const UserModel = require("./User");
 const TableKeyRelationModel = require("./TableKeyRelation");
+const TransactionModel = require("./Transaction");
 // ------------------------------------------------------------------------------------------------
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
@@ -34,6 +35,7 @@ const Booking = BookingModel(sequelize);
 const VehicleStatus = VehicleStatusModel(sequelize);
 const User = UserModel(sequelize);
 const TableKeyRelation = TableKeyRelationModel(sequelize);
+const Transaction = TransactionModel(sequelize);
 
 // ----------------------------------------------------------------
 
@@ -202,4 +204,5 @@ module.exports = {
   Customer,
   User,
   TableKeyRelation,
+  Transaction,
 };
