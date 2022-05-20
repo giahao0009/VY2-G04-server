@@ -1,4 +1,4 @@
-const { sequelize, Scheduler, Vehicle } = require("../models");
+const { sequelize, Scheduler, Vehicle, Company } = require("../models");
 const { Op } = require("sequelize");
 
 class SchedulerController {
@@ -8,6 +8,7 @@ class SchedulerController {
         vehicleId: req.body.vehicleId,
         schedulerStart: req.body.schedulerStart,
         schedulerEnd: req.body.schedulerEnd,
+        companyId: req.body.companyId,
       };
       const scheduler = await Scheduler.create(data);
       res.json({
@@ -18,7 +19,7 @@ class SchedulerController {
     } catch (err) {
       console.log(err);
       res.json({
-        status: 401,
+        status: 501,
         message: "Thực hiện không thành công",
         err: err,
       });
@@ -27,10 +28,10 @@ class SchedulerController {
 
   getAllSchedulerByCompany = async (req, res) => {
     try {
-      const data = await Scheduler.findAll({
+      const scheduler = await Scheduler.findAll({
         where: { companyId: req.query.companyId },
       });
-      res.json({ status: 201, data: data });
+      res.json({ status: 201, data: scheduler });
     } catch (err) {
       res.json({
         status: 501,

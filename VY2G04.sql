@@ -135,3 +135,37 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [dbo].[usp_schedulerPagination]
+	@page			INT,
+	@size			INT,
+	@search			VARCHAR(MAX) = '',
+	@orderBy		VARCHAR(MAX) = '',
+	@orderDir		VARCHAR(MAX) = 'DESC'
+AS
+BEGIN
+	DECLARE @condition	VARCHAR(MAX);
+	DECLARE @skip		INT;
+
+	SET @skip	= (@size * @page) - @size;
+	SET @search = LOWER(@search);
+
+	IF @search <> ''
+		SET @condition = '
+			WHERE	LOWER([CarNumber])		LIKE ''%'' + ' + @search + ' + ''%'' OR
+					LOWER([CarBranch])		LIKE ''%'' + ' + @search + ' + ''%'' OR
+					LOWER([companyId])		LIKE ''%'' + ' + @search + ' + ''%'' 
+		';
+
+	EXEC('
+		SELECT	* 
+		FROM	[dbo].[Schedulers] 	
+		' + @condition + '
+		ORDER BY ' + @orderBy + ' ' + @orderDir + '
+		OFFSET	(' + @skip + ') ROWS FETCH NEXT (' + @size + ') ROWS ONLY		
+		
+		SELECT 	
+			(SELECT COUNT(*) FROM [dbo].[Vehicles]) AS [Total] 
+	');
+END
+GO
+

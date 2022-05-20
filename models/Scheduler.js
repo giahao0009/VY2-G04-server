@@ -20,5 +20,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    vehicleId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
   });
 };
