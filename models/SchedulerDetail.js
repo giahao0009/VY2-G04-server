@@ -8,5 +8,9 @@ module.exports = (sequelize) => {
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
+    indexDetail: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   });
 };

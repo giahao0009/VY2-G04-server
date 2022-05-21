@@ -1,7 +1,14 @@
-const { sequelize, Scheduler, Vehicle, Company } = require("../models");
+const {
+  sequelize,
+  Scheduler,
+  Vehicle,
+  Company,
+  SchedulerDetail,
+} = require("../models");
 const { Op } = require("sequelize");
 
 class SchedulerController {
+  // [POST]
   createScheduler = async (req, res) => {
     try {
       let data = {
@@ -16,6 +23,48 @@ class SchedulerController {
         message: "Thực hiện thành công",
         data: scheduler,
       });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
+
+  // [POST]
+  createDetailScheduler = async (req, res) => {
+    try {
+      const schedulerId = await Scheduler.findAll({
+        where: { schedulerId: req.body.schedulerId },
+      });
+
+      const theSameDetail = await SchedulerDetail.findOne({
+        where: {
+          schedulerId: req.body.schedulerId,
+          stationId: req.body.stationId,
+        },
+      });
+      if (theSameDetail) {
+        res.json({
+          status: 401,
+          message: "Không thể thực hiện do trùng địa điểm",
+        });
+        return;
+      }
+
+      if (schedulerId) {
+        const data = {
+          schedulerId: req.body.schedulerId,
+          stationId: req.body.stationId,
+          indexDetail: req.body.indexDetail,
+        };
+        const schedulerDetail = await SchedulerDetail.create(data);
+        schedulerDetail
+          ? res.json({ status: 201, message: "Thực hiện thành công" })
+          : res.json({ status: 401, message: "Thực hiện không thành công" });
+      }
     } catch (err) {
       console.log(err);
       res.json({
