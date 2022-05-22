@@ -8,6 +8,7 @@ const SchedulerController = require("./SchedulerController");
 const SchedulerDetailController = require("./SchedulerDetailController");
 const UltilsController = require("./UltilsController");
 const TableKeyRelationController = require("./TableKeyRelationController");
+const TransactionController = require("./TransactionController");
 
 module.exports = {
   CompanyController,
@@ -20,4 +21,5 @@ module.exports = {
   SchedulerDetailController,
   UltilsController,
   TableKeyRelationController,
+  TransactionController,
 };

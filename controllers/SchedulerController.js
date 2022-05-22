@@ -139,6 +139,23 @@ class SchedulerController {
       });
     }
   };
+
+  // [GET]
+  getDetail = async (req, res) => {
+    try {
+      const data = await SchedulerDetail.findAll({
+        where: { schedulerId: req.params.id },
+      });
+      res.json({ status: 201, message: "Thực hiện thành công", data: data });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
 }
 
 module.exports = new SchedulerController();

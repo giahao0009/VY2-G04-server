@@ -9,5 +9,6 @@ router.post(
 );
 router.get("/scheduler", SchedulerController.getSchedulerByVehicleId);
 router.get("/allscheduler", SchedulerController.getAllSchedulerByCompany);
+router.get("/detail/:id", SchedulerController.getDetail);
 
 module.exports = router;

@@ -6,27 +6,23 @@ class TransactionController {
   // [POST] /api/transaction/createtransaction
   createTransaction = async (req, res) => {
     try {
-      let users = await User.findAll({
-        where: { userId: req.params.customerId },
-      });
-      if (!user) {
-        res.json({
-          status: 401,
-          message: "Không có bất kỳ user nào để tạo transaction",
-        });
-      }
       let totalCost = calculateTotalCost(req.body.numberPeoples, 1400);
-      let vehicle = Vehicle.findById(req.params.vehicleId);
+      let vehicle = await Vehicle.findOne({
+        where: { vehicleId: req.body.vehicleId },
+      });
+
       let data = {
         customerId: req.body.customerId,
+        customerName: req.body.customerName,
         pickupDate: req.body.pickupDate,
         pickupTime: req.body.pickupTime,
         fromAddress: req.body.fromAddress,
         toAddress: req.body.toAddress,
-        totalCost: totalCost,
-        vehicle: vehicle,
-        unitCost: 100000,
-        transactionStatus: req.body.bookingStatus,
+        totalCost: totalCost.toString(),
+        vehicle: vehicle.dataValues.vehicleNumber,
+        unitCost: "1400",
+        transactionStatus: req.body.transactionStatus,
+        companyId: "c85665e5-0b00-4adc-8597-db5d6ad3a85e",
       };
 
       const transaction = await Transaction.create(data);
@@ -52,6 +48,25 @@ class TransactionController {
       });
     } catch (e) {
       console.log(e);
+      res.json({ status: 501, message: "Thực hiện không thành công" });
+    }
+  };
+
+  // [GET] /api/transaction/gettransactionbycomid
+  getAllTransactionByComId = async (req, res) => {
+    try {
+      console.log(req.params.id);
+      const transactions = await Transaction.findAll({
+        where: { companyId: req.params.id },
+      });
+      console.log(transactions);
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: transactions,
+      });
+    } catch (err) {
+      console.log(err);
       res.json({ status: 501, message: "Thực hiện không thành công" });
     }
   };

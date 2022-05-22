@@ -13,6 +13,14 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: false,
     },
+    customerName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    companyId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     unitCost: {
       type: DataTypes.STRING,
       allowNull: false,
