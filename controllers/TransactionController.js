@@ -59,7 +59,6 @@ class TransactionController {
       const transactions = await Transaction.findAll({
         where: { companyId: req.params.id },
       });
-      console.log(transactions);
       res.json({
         status: 201,
         message: "Thực hiện thành công",
@@ -88,7 +87,7 @@ class TransactionController {
     }
   };
 
-  // [PUT] /api/transactions/refund/:id
+  // [PUT] /api/transaction/refund/:id
   refundTransaction = async (req, res) => {
     try {
       let data = {
@@ -104,6 +103,27 @@ class TransactionController {
         status: 501,
         message: "Transaction not found",
         error: e.message,
+      });
+    }
+  };
+
+  // [GET] /api/transaction/gettransactionbyid/:id
+  getTransactionById = async (req, res) => {
+    try {
+      const transaction = await Transaction.findOne({
+        where: { transactionId: req.params.id },
+      });
+      console.log(transaction.dataValues);
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: transaction,
+      });
+    } catch (err) {
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: err.message,
       });
     }
   };

@@ -7,5 +7,7 @@ router.get(
   "/gettransactionbycomid/:id",
   TransactionController.getAllTransactionByComId
 );
+router.get("/gettransactionbyid/:id", TransactionController.getTransactionById);
+router.put("/refund/:id", TransactionController.refundTransaction);
 
 module.exports = router;

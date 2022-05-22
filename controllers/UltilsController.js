@@ -2,6 +2,13 @@ const stripe = require("stripe")(process.env.SECRET_KEY_STRIPE);
 const { calculateOrderAmount } = require("../ultils");
 
 class UltisController {
+  // [POST] /api/ultils/refund
+  refundCost = async (req, res) => {
+    const refund = await stripe.refunds.create({
+      charge: req.params.charge,
+    });
+  };
+
   // [POST] /api/ultils/payment-stripe
   // Tạo payment intent
   createPaymentIntent = async (req, res) => {
