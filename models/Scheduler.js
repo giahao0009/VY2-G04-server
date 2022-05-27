@@ -25,5 +25,14 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
+    carNumber: {
+      type: DataTypes.STRING,
+    },
+    startAddress: {
+      type: DataTypes.STRING,
+    },
+    endAddress: {
+      type: DataTypes.STRING,
+    },
   });
 };

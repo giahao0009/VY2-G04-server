@@ -132,6 +132,25 @@ class StationController {
       });
     }
   };
+
+  // [GET] /api/station/getstationbyname
+  getStationByName = async (req, res) => {
+    try {
+      console.log(req.query.stationName);
+      const data = await Station.findOne({
+        where: { stationName: req.query.stationName },
+      });
+      console.log(data);
+      res.json({ status: 201, message: "Thực hiện thành công", data: data });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: err,
+      });
+    }
+  };
 }
 
 module.exports = new StationController();

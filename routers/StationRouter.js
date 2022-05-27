@@ -12,5 +12,6 @@ router.get(
   "/getallstationpagination",
   StationController.getAllStationWithPagination
 );
+router.get("/getStationByName", StationController.getStationByName);
 
 module.exports = router;

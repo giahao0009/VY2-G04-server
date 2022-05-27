@@ -16,6 +16,9 @@ class SchedulerController {
         schedulerStart: req.body.schedulerStart,
         schedulerEnd: req.body.schedulerEnd,
         companyId: req.body.companyId,
+        carNumber: req.body.carNumber,
+        startAddress: req.body.startAddress,
+        endAddress: req.body.endAddress,
       };
       const scheduler = await Scheduler.create(data);
       res.json({
@@ -36,35 +39,19 @@ class SchedulerController {
   // [POST]
   createDetailScheduler = async (req, res) => {
     try {
-      const schedulerId = await Scheduler.findAll({
-        where: { schedulerId: req.body.schedulerId },
+      const data = {
+        schedulerId: req.body.schedulerId,
+        stationId: req.body.stationId,
+        indexDetail: req.body.indexDetail,
+        keyWord: req.body.keyWord,
+      };
+      console.log(req.body);
+      const schedulerDetail = await SchedulerDetail.create(data);
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: schedulerDetail,
       });
-
-      const theSameDetail = await SchedulerDetail.findOne({
-        where: {
-          schedulerId: req.body.schedulerId,
-          stationId: req.body.stationId,
-        },
-      });
-      if (theSameDetail) {
-        res.json({
-          status: 401,
-          message: "Không thể thực hiện do trùng địa điểm",
-        });
-        return;
-      }
-
-      if (schedulerId) {
-        const data = {
-          schedulerId: req.body.schedulerId,
-          stationId: req.body.stationId,
-          indexDetail: req.body.indexDetail,
-        };
-        const schedulerDetail = await SchedulerDetail.create(data);
-        schedulerDetail
-          ? res.json({ status: 201, message: "Thực hiện thành công" })
-          : res.json({ status: 401, message: "Thực hiện không thành công" });
-      }
     } catch (err) {
       console.log(err);
       res.json({
@@ -147,6 +134,23 @@ class SchedulerController {
         where: { schedulerId: req.params.id },
       });
       res.json({ status: 201, message: "Thực hiện thành công", data: data });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
+
+  // [GET]
+  filterScheduler = async (req, res) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `EXEC [usp_filterScheduler] @keyRelation = '${req.query.key}'`
+      );
+      res.json({ status: 201, message: "Thực hiện thành công", data: results });
     } catch (err) {
       console.log(err);
       res.json({
