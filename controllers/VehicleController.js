@@ -187,6 +187,23 @@ class VehicleController {
       res.json({ status: 401, message: "Thực hiện không thành công" });
     }
   };
+
+  // [GET] /api/vehicle/countvehicle
+  countVehicle = async (req, res) => {
+    try {
+      const count = await Vehicle.count({
+        where: { companyId: req.query.companyId },
+      });
+      res.json({ status: 201, message: "Thực hiện thành công", data: count });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
 }
 
 module.exports = new VehicleController();

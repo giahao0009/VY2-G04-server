@@ -9,5 +9,8 @@ router.get(
 );
 router.get("/gettransactionbyid/:id", TransactionController.getTransactionById);
 router.put("/refund/:id", TransactionController.refundTransaction);
+router.get("/counttransaction", TransactionController.countTransaction);
+router.get("/sumcosttransaction", TransactionController.sumTransaction);
+router.get("/reportmonth", TransactionController.report);
 
 module.exports = router;

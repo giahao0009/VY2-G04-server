@@ -119,6 +119,28 @@ class DriverController {
       });
     }
   };
+
+  // [GET] /api/countdriver?companyid=...
+  countDriver = async (req, res) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `EXEC [usp_countDriver] @companyId = '${req.query.companyId}'`
+      );
+      console.log(results);
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: results[0].total,
+      });
+    } catch (e) {
+      console.log(e);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: e,
+      });
+    }
+  };
 }
 
 module.exports = new DriverController();

@@ -11,5 +11,6 @@ router.get(
   "/getalldriverpagination",
   DriverController.getAllDriverWithPagination
 );
+router.get("/countdriver", DriverController.countDriver);
 
 module.exports = router;

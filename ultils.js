@@ -2,7 +2,7 @@
 // Dùng để tính tổng đơn hàng ở phía server
 // Tránh trường hợp phía client thao túng tiền
 const calculateOrderAmount = (items) => {
-  return 1400;
+  return 100000;
 };
 
 const chargeCustomer = async (customerId) => {
