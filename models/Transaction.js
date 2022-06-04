@@ -60,5 +60,8 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: false,
     },
+    paymentIntent: {
+      type: DataTypes.STRING,
+    },
   });
 };

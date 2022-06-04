@@ -1,12 +1,32 @@
 const stripe = require("stripe")(process.env.SECRET_KEY_STRIPE);
 const { calculateOrderAmount } = require("../ultils");
+const { Transaction } = require("../models");
 
 class UltisController {
   // [POST] /api/ultils/refund
   refundCost = async (req, res) => {
-    const refund = await stripe.refunds.create({
-      charge: req.params.charge,
-    });
+    try {
+      const refund = await stripe.refunds.create({
+        payment_intent: req.body.payment_intent,
+      });
+      const respond = await Transaction.update(
+        { transactionStatus: "Đã hoàn tiền" },
+        {
+          where: {
+            transactionId: req.body.transactionId,
+          },
+        }
+      );
+
+      res.json({
+        status: 200,
+        message: "Đã hoàn tiền thành công",
+        refund: refund,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({ status: 500, message: "Thực hiện không thành công" });
+    }
   };
 
   // [POST] /api/ultils/payment-stripe

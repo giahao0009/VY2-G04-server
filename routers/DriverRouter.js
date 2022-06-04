@@ -12,5 +12,6 @@ router.get(
   DriverController.getAllDriverWithPagination
 );
 router.get("/countdriver", DriverController.countDriver);
+router.get("/searchdriver", DriverController.searchDriver);
 
 module.exports = router;

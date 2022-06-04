@@ -160,6 +160,26 @@ class SchedulerController {
       });
     }
   };
+  // [GET]
+  // /api/scheduler/search?carnumber=...&companyId=...
+  searchScheduler = async (req, res) => {
+    try {
+      const data = await Scheduler.findAll({
+        where: {
+          carNumber: req.query.carnumber,
+          companyId: req.query.companyId,
+        },
+      });
+      res.json({ status: 200, message: "Thực hiện thành công", data: data });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
 }
 
 module.exports = new SchedulerController();

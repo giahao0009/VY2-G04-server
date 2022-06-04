@@ -6,11 +6,12 @@ class TransactionController {
   // [POST] /api/transaction/createtransaction
   createTransaction = async (req, res) => {
     try {
+      console.log(req.body);
       let totalCost = calculateTotalCost(req.body.numberPeoples, 100000);
       let vehicle = await Vehicle.findOne({
         where: { vehicleId: req.body.vehicleId },
       });
-
+      console.log(vehicle);
       let data = {
         customerId: req.body.customerId,
         customerName: req.body.customerName,
@@ -23,9 +24,11 @@ class TransactionController {
         unitCost: "100000",
         transactionStatus: req.body.transactionStatus,
         companyId: "c85665e5-0b00-4adc-8597-db5d6ad3a85e",
+        paymentIntent: req.body.payment_intent,
       };
 
       const transaction = await Transaction.create(data);
+      console.log(transaction);
       res.json({
         status: 201,
         message: "Lưu thông tin thanh toán thành công",

@@ -1,4 +1,5 @@
 const { sequelize, Driver } = require("../models");
+const { Op } = require("sequelize");
 
 class DriverController {
   // [POST] /api/driver/createdriver
@@ -132,6 +133,36 @@ class DriverController {
         message: "Thực hiện thành công",
         data: results[0].total,
       });
+    } catch (e) {
+      console.log(e);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: e,
+      });
+    }
+  };
+
+  // [GET] /api/searchdriver?name=...
+  searchDriver = async (req, res) => {
+    try {
+      const data = await Driver.findAll({
+        where: {
+          [Op.or]: [
+            {
+              driverFirstName: {
+                [Op.like]: `%${req.query.name}%`,
+              },
+            },
+            {
+              driverLastName: {
+                [Op.like]: `%${req.query.name}%`,
+              },
+            },
+          ],
+        },
+      });
+      res.json({ status: 201, message: "Thực hiện thành công", data: data });
     } catch (e) {
       console.log(e);
       res.json({
