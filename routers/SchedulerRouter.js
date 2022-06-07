@@ -12,5 +12,6 @@ router.get("/allscheduler", SchedulerController.getAllSchedulerByCompany);
 router.get("/detail/:id", SchedulerController.getDetail);
 router.get("/filterscheduler", SchedulerController.filterScheduler);
 router.get("/search", SchedulerController.searchScheduler);
+router.get("/getwithpagination", SchedulerController.schedulerPagination);
 
 module.exports = router;

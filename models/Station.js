@@ -19,5 +19,8 @@ module.exports = (sequelize) => {
     keyWord: {
       type: DataTypes.STRING,
     },
+    companyId: {
+      type: DataTypes.STRING,
+    },
   });
 };

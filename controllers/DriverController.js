@@ -92,7 +92,7 @@ class DriverController {
   getAllDriverWithPagination = async (req, res) => {
     try {
       const [results, metadata] = await sequelize.query(
-        `EXEC [usp_driverPagination] @page = ${req.query.page}, @size = ${req.query.size}`
+        `EXEC [usp_driverPagination] @page = ${req.query.page}, @size = ${req.query.size}, @companyId = '${req.query.companyId}'`
       );
 
       let total;

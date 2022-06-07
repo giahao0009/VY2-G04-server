@@ -7,7 +7,10 @@ class SchedulerDetailController {
       let data = {
         schedulerId: req.body.schedulerId,
         stationId: req.body.stationId,
+        keyWord: req.body.keyWord,
+        indexDetail: req.body.indexDetail,
       };
+      console.log(data);
       const schedulerDetail = await SchedulerDetail.create(data);
       res.json({
         status: 201,

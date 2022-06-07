@@ -13,5 +13,9 @@ router.get(
   StationController.getAllStationWithPagination
 );
 router.get("/getStationByName", StationController.getStationByName);
+router.get(
+  "/getallstationbycompanyid",
+  StationController.getStationByCompanyId
+);
 
 module.exports = router;

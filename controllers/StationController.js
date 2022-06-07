@@ -5,14 +5,40 @@ class StationController {
   // [POST] /api/station/createstation
   createStation = async (req, res) => {
     try {
-      let data = {
-        stationName: req.body.stationName,
-        stationLocation: req.body.stationLocation,
-        companyId: req.body.companyId,
-      };
-      const station = await Station.create(data);
-      console.log(station);
-      res.json({ status: 201, message: "Thực hiện thành công", data: station });
+      const stationOwn = await Station.findOne({
+        where: { stationName: req.body.stationName },
+      });
+
+      if (stationOwn) {
+        console.log(stationOwn.dataValues.keyWord);
+        let data = {
+          stationName: req.body.stationName,
+          stationLocation: req.body.stationLocation,
+          companyId: req.body.companyId,
+          keyWord: stationOwn.dataValues.keyWord,
+        };
+        const station = await Station.create(data);
+        console.log(station);
+        res.json({
+          status: 201,
+          message: "Thực hiện thành công",
+          data: station,
+        });
+      } else {
+        let data = {
+          stationName: req.body.stationName,
+          stationLocation: req.body.stationLocation,
+          companyId: req.body.companyId,
+          keyWord: req.body.keyWord,
+        };
+        const station = await Station.create(data);
+        console.log(station);
+        res.json({
+          status: 201,
+          message: "Thực hiện thành công",
+          data: station,
+        });
+      }
     } catch (err) {
       res.json({
         status: 501,
@@ -84,7 +110,7 @@ class StationController {
   getAllStationWithPagination = async (req, res) => {
     try {
       const [results, metadata] = await sequelize.query(
-        `EXEC [usp_stationPagination] @page = ${req.query.page}, @size = ${req.query.size}`
+        `EXEC [usp_stationPagination] @page = ${req.query.page}, @size = ${req.query.size}, @companyId = '${req.query.companyId}'`
       );
 
       let total;
@@ -141,6 +167,23 @@ class StationController {
         where: { stationName: req.query.stationName },
       });
       console.log(data);
+      res.json({ status: 201, message: "Thực hiện thành công", data: data });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: err,
+      });
+    }
+  };
+
+  // [GET] /api/station/getallstationbycompanyid
+  getStationByCompanyId = async (req, res) => {
+    try {
+      const data = await Station.findAll({
+        where: { companyId: req.query.companyId },
+      });
       res.json({ status: 201, message: "Thực hiện thành công", data: data });
     } catch (err) {
       console.log(err);

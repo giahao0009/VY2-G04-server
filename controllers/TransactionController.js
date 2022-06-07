@@ -23,7 +23,7 @@ class TransactionController {
         vehicle: vehicle.dataValues.vehicleNumber,
         unitCost: "100000",
         transactionStatus: req.body.transactionStatus,
-        companyId: "c85665e5-0b00-4adc-8597-db5d6ad3a85e",
+        companyId: req.body.companyId,
         paymentIntent: req.body.payment_intent,
       };
 
@@ -164,6 +164,41 @@ class TransactionController {
         status: 201,
         message: "Thực hiện thành công",
         data: sum,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        error: err,
+      });
+    }
+  };
+
+  // [GET] /api/transaction/getwithpagination?page=...&size=...&companyId=...
+  transactionPagination = async (req, res) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `EXEC usp_transactionPagination @page = ${req.query.page}, @size = ${req.query.size}, @companyId = '${req.query.companyId}'`
+      );
+      let total;
+      for (let i = 0; i < results.length; ++i) {
+        if ("Total" in results[i]) {
+          total = results[i].Total;
+        }
+      }
+      const dataArr = [];
+      results.forEach((item) => {
+        if ("Total" in item) {
+          return;
+        }
+        dataArr.push(item);
+      });
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: dataArr,
+        Total: total,
       });
     } catch (err) {
       console.log(err);

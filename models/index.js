@@ -3,7 +3,6 @@ const { DATABASE } = require("../config");
 const { DB_HOST, DB_NAME, DB_USER, DB_PASS } = DATABASE;
 
 // Models
-const CompanyModel = require("./Company");
 const VehicleModel = require("./Vehicle");
 const VehicleTypeModel = require("./VehicleType");
 const DriverModel = require("./Driver");
@@ -13,7 +12,6 @@ const StationModel = require("./Station");
 const CustomerModel = require("./Customer");
 const BookingModel = require("./Booking");
 const VehicleStatusModel = require("./VehicleStatus");
-const UserModel = require("./User");
 const TableKeyRelationModel = require("./TableKeyRelation");
 const TransactionModel = require("./Transaction");
 // ------------------------------------------------------------------------------------------------
@@ -23,7 +21,6 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   dialect: "mssql",
 });
 
-const Company = CompanyModel(sequelize);
 const Vehicle = VehicleModel(sequelize);
 const VehicleType = VehicleTypeModel(sequelize);
 const Driver = DriverModel(sequelize);
@@ -33,22 +30,11 @@ const Station = StationModel(sequelize);
 const Customer = CustomerModel(sequelize);
 const Booking = BookingModel(sequelize);
 const VehicleStatus = VehicleStatusModel(sequelize);
-const User = UserModel(sequelize);
 const TableKeyRelation = TableKeyRelationModel(sequelize);
 const Transaction = TransactionModel(sequelize);
 
 // ----------------------------------------------------------------
 
-// Relationship of company and vehicle
-Company.hasMany(Vehicle, {
-  foreignKey: {
-    name: "companyId",
-    allowNull: false,
-  },
-});
-Vehicle.belongsTo(Company, {
-  foreignKey: "companyId",
-});
 // ----------------------------------------------------------------
 
 // Relationship of vehicle and vehicle type
@@ -129,20 +115,6 @@ Booking.belongsTo(Vehicle, {
 });
 // ----------------------------------------------------------------
 
-// Relationship of company and station
-Company.hasMany(Station, {
-  foreignKey: {
-    name: "companyId",
-    allowNull: false,
-  },
-});
-
-Station.belongsTo(Company, {
-  foreignKey: {
-    name: "companyId",
-    allowNull: false,
-  },
-});
 // ----------------------------------------------------------------
 
 // Relationship of VehicleStatus and Vehicle
@@ -158,21 +130,7 @@ Vehicle.belongsTo(VehicleStatus, {
     allowNull: false,
   },
 });
-// ----------------------------------------------------------------
 
-// Relationship of User and Company
-User.hasMany(Company, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false,
-  },
-});
-Company.belongsTo(User, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false,
-  },
-});
 // ----------------------------------------------------------------
 
 // Relationship of TableKeyRelation and Station
@@ -192,7 +150,6 @@ TableKeyRelation.belongsTo(Station, {
 
 module.exports = {
   sequelize,
-  Company,
   Vehicle,
   VehicleType,
   VehicleStatus,
@@ -202,7 +159,6 @@ module.exports = {
   Station,
   Booking,
   Customer,
-  User,
   TableKeyRelation,
   Transaction,
 };

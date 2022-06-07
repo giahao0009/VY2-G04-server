@@ -15,5 +15,10 @@ router.get(
   VehicleController.getAllVehicleWithPagination
 );
 router.get("/countvehicle", VehicleController.countVehicle);
+router.get("/getalltype", VehicleController.getAllTypeVehicle);
+router.get(
+  "/getVehicleByCompanyId",
+  VehicleController.getAllVehicleByCompanyId
+);
 
 module.exports = router;

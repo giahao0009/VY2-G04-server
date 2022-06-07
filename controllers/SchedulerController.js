@@ -180,6 +180,42 @@ class SchedulerController {
       });
     }
   };
+  // [GET]
+  // /api/scheduler/getwithpagination?companyId=...&page=...&size=...
+  schedulerPagination = async (req, res) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `EXEC usp_schedulerPagination @page = ${req.query.page}, @size = ${req.query.size}, @companyId = '${req.query.companyId}'`
+      );
+      let total;
+      for (let i = 0; i < results.length; ++i) {
+        if ("Total" in results[i]) {
+          total = results[i].Total;
+        }
+      }
+      const dataArr = [];
+      results.forEach((item) => {
+        if ("Total" in item) {
+          return;
+        }
+        dataArr.push(item);
+      });
+
+      res.json({
+        status: 201,
+        message: "Thực hiện thành công",
+        data: dataArr,
+        Total: total,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        status: 501,
+        message: "Thực hiện không thành công",
+        err: err,
+      });
+    }
+  };
 }
 
 module.exports = new SchedulerController();

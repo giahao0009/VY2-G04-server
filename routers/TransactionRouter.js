@@ -12,5 +12,6 @@ router.put("/refund/:id", TransactionController.refundTransaction);
 router.get("/counttransaction", TransactionController.countTransaction);
 router.get("/sumcosttransaction", TransactionController.sumTransaction);
 router.get("/reportmonth", TransactionController.report);
+router.get("/getwithpagination", TransactionController.transactionPagination);
 
 module.exports = router;
