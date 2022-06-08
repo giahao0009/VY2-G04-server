@@ -131,7 +131,7 @@ class DriverController {
       res.json({
         status: 201,
         message: "Thực hiện thành công",
-        data: results[0].total,
+        data: results,
       });
     } catch (e) {
       console.log(e);
