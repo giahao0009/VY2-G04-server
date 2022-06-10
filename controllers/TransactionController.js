@@ -11,7 +11,6 @@ class TransactionController {
       let vehicle = await Vehicle.findOne({
         where: { vehicleId: req.body.vehicleId },
       });
-      console.log(vehicle);
       let data = {
         customerId: req.body.customerId,
         customerName: req.body.customerName,
@@ -25,6 +24,7 @@ class TransactionController {
         transactionStatus: req.body.transactionStatus,
         companyId: req.body.companyId,
         paymentIntent: req.body.payment_intent,
+        discount: req.body.discount,
       };
 
       const transaction = await Transaction.create(data);

@@ -63,5 +63,8 @@ module.exports = (sequelize) => {
     paymentIntent: {
       type: DataTypes.STRING,
     },
+    discount: {
+      type: DataTypes.INTEGER,
+    },
   });
 };
