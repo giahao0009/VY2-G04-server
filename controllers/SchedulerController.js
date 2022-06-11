@@ -150,6 +150,7 @@ class SchedulerController {
       const [results, metadata] = await sequelize.query(
         `EXEC [usp_filterScheduler] @keyRelation = '${req.query.key}'`
       );
+      console.log(results);
       res.json({ status: 201, message: "Thực hiện thành công", data: results });
     } catch (err) {
       console.log(err);
